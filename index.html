@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nox Tournament Registration</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #000000; /* Black background */
+            color: #ffffff; /* White text */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            background-color: #111111;
+            padding: 30px;
+            border-radius: 10px;
+            border: 2px solid #ffffff;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 25px;
+            font-size: 2.5em;
+            font-weight: 800;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="tel"],
+        input[type="email"] {
+            width: 100%;
+            padding: 12px;
+            background-color: #222222;
+            border: 1px solid #ffffff;
+            color: #ffffff;
+            border-radius: 5px;
+            box-sizing: border-box; /* Ensures padding doesn't affect width */
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #aaaaaa;
+        }
+
+        .fee-section {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 1.5em;
+            font-weight: bold;
+            padding: 15px;
+            border: 2px solid #ffffff;
+            border-radius: 5px;
+            background-color: #111111;
+        }
+
+        .fee-amount {
+            color: #ffffff;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background-color: #ffffff;
+            color: #000000;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .submit-btn:disabled {
+            background-color: #555555;
+            color: #aaaaaa;
+            cursor: not-allowed;
+        }
+
+        .submit-btn:not(:disabled):hover {
+            background-color: #cccccc;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>NOX TOURNAMENT</h1>
+    <form id="registrationForm">
+        <div class="form-group">
+            <label for="name">Name <span style="color: #ffffff">*</span></label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        <div class="form-group">
+            <label for="gameName">Game Name <span style="color: #ffffff">*</span></label>
+            <input type="text" id="gameName" name="gameName" required>
+        </div>
+        <div class="form-group">
+            <label for="gameId">Game ID <span style="color: #ffffff">*</span></label>
+            <input type="text" id="gameId" name="gameId" required>
+        </div>
+        <div class="form-group">
+            <label for="whatsapp">WhatsApp Number <span style="color: #ffffff">*</span></label>
+            <input type="tel" id="whatsapp" name="whatsapp" required>
+        </div>
+        <div class="form-group">
+            <label for="mobile">Mobile Number <span style="color: #ffffff">*</span></label>
+            <input type="tel" id="mobile" name="mobile" required>
+        </div>
+        <div class="form-group">
+            <label for="gmail">Gmail (Optional)</label>
+            <input type="email" id="gmail" name="gmail">
+        </div>
+
+        <div class="fee-section">
+            Tournament Fee: <span id="feeDisplay" class="fee-amount"></span>
+        </div>
+
+        <button type="submit" class="submit-btn" id="submitBtn" disabled>SUBMIT NOW</button>
+    </form>
+</div>
+
+<script>
+    // --- Configuration ---
+    const entryFee = 49; // Change this value to update the fee
+    // ---------------------
+
+    const feeDisplayElement = document.getElementById('feeDisplay');
+    feeDisplayElement.textContent = `₹${entryFee}`;
+
+    const form = document.getElementById('registrationForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const requiredInputs = form.querySelectorAll('input[required]');
+
+    function checkFormValidity() {
+        let allFilled = true;
+        requiredInputs.forEach(input => {
+            if (input.value.trim() === '') {
+                allFilled = false;
+            }
+        });
+        submitBtn.disabled = !allFilled;
+    }
+
+    requiredInputs.forEach(input => {
+        input.addEventListener('input', checkFormValidity);
+    });
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (!submitBtn.disabled) {
+            alert('Registration Submitted!');
+            // Here you would typically send the form data to a server
+            form.reset();
+            checkFormValidity();
+        }
+    });
+
+    // Initial check
+    checkFormValidity();
+</script>
+
+</body>
+</html>

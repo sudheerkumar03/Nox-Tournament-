@@ -21,7 +21,7 @@
 
         .container { width: 100%; max-width: 400px; text-align: center; position: relative; }
 
-        /* --- फॉर्म स्टाइल --- */
+        /* --- फॉर्म इनपुट्स --- */
         h1 { font-weight: 800; font-size: 28px; margin-bottom: 30px; text-transform: uppercase; line-height: 1.2; }
         
         label { font-weight: 700; font-size: 14px; display: block; margin-bottom: 8px; margin-top: 15px; text-align: left; }
@@ -45,7 +45,7 @@
         .submit-btn:hover { background-color: #000; }
         .confirm-btn { background-color: #008000; margin-top: 30px; } 
 
-        /* --- पेमेंट पेज स्टाइल --- */
+        /* --- पेमेंट पेज --- */
         #payment-page { display: none; }
 
         h2 { margin-bottom: 10px; font-weight: 800; text-transform: uppercase; }
@@ -72,12 +72,11 @@
         .qr-img { width: 180px; height: 180px; margin: 0 auto; border: 2px solid #000; }
         .copy-btn { background: #333; color: #fff; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; }
 
-        /* --- अपलोड बॉक्स --- */
-        .upload-box {
-            margin-top: 20px; text-align: left; border: 2px dashed #000;
-            padding: 15px; border-radius: 6px; background: #fdfdfd;
+        /* --- Transaction ID Box --- */
+        .trans-box {
+            margin-top: 20px; text-align: left; border: 2px solid #000;
+            padding: 15px; border-radius: 6px; background: #fff;
         }
-        .file-input { width: 100%; margin-top: 5px; font-size: 14px; }
 
         /* --- फुटर --- */
         .footer { margin-top: 40px; border-top: 1px solid #ddd; padding-top: 20px; text-align: center; }
@@ -134,11 +133,11 @@
                 <img src="" class="qr-img" id="display-qr-code" alt="QR Code Loading...">
             </div>
 
-            <div class="upload-box">
-                <label style="margin-top: 0;">Upload Payment Proof *</label>
-                <input type="file" class="file-input" id="paymentProof" accept="image/*">
-                <small style="color: red; font-size: 12px; display: block; margin-top: 5px;">
-                    * Select screenshot here, then attach it in WhatsApp.
+            <div class="trans-box">
+                <label style="margin-top: 0;">Enter Transaction ID / UTR *</label>
+                <input type="text" id="transId" placeholder="Example: 40321XXXXXXX" required>
+                <small style="color: #666; font-size: 12px; display: block; margin-top: 5px;">
+                    * Paste the 12-digit UTR number from Payment App.
                 </small>
             </div>
 
@@ -163,25 +162,16 @@
         //         👇 सिर्फ यहाँ बदलाव करें 👇
         // ==========================================
         
-        const myUPI = "8929094129@paytm";     // अपनी UPI ID यहाँ लिखें
-        const myPhone = "918929094129";      // अपना WhatsApp नंबर यहाँ लिखें
+        const myUPI = "8929094129@paytm";     // अपनी UPI ID यहाँ डालें
+        const myPhone = "918929094129";      // अपना WhatsApp नंबर यहाँ डालें
         
         // ==========================================
-        //         ☝️ सेटिंग ख़त्म ☝️
-        // ==========================================
-
-        // पेज लोड होते ही UPI और QR सेट करना
+        
         window.onload = function() {
-            // 1. UPI ID दिखाना
             document.getElementById('display-upi-id').innerText = myUPI;
-            
-            // 2. ऑटोमेटिक QR कोड बनाना (₹49 अमाउंट के साथ)
-            // यह लिंक आपकी UPI ID से QR बनाएगा
             let qrLink = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=" + myUPI + "%26pn=NoxTournament%26am=49";
             document.getElementById('display-qr-code').src = qrLink;
         };
-
-        // --- बाकी फंक्शन ---
 
         function goToPayment() {
             const form = document.getElementById('main-form');
@@ -195,12 +185,25 @@
         }
 
         function sendToWhatsApp() {
-            var fileInput = document.getElementById('paymentProof');
-            if (fileInput.files.length === 0) {
-                alert("Please select the payment screenshot first.");
+            // 1. Transaction ID उठाना
+            var tid = document.getElementById("transId").value.trim();
+            
+            // 2. चेक करना कि खाली तो नहीं है
+            if (tid === "") {
+                alert("Please enter Transaction ID / UTR Number.");
                 return;
             }
 
+            // 3. डुप्लीकेट चेक (Browser Local Storage)
+            // यह चेक करेगा कि इस ब्राउज़र से यह ID पहले भेजी गई है या नहीं
+            var storedIDs = JSON.parse(localStorage.getItem('usedTransIDs')) || [];
+            
+            if (storedIDs.includes(tid)) {
+                alert("Error: This Transaction ID has already been used!");
+                return; // फॉर्म यहीं रुक जाएगा
+            }
+
+            // अगर नई ID है, तो आगे बढ़ो
             var name = document.getElementById("userName").value;
             var gName = document.getElementById("gameName").value;
             var gId = document.getElementById("gameId").value;
@@ -217,8 +220,14 @@
                           "*Mobile No:* " + mob + "%0a" +
                           "*Gmail:* " + gmail + "%0a" +
                           "---------------------------------%0a" +
-                          "*Payment Status:* Paid ₹49 (Proof Attached)";
+                          "*Transaction ID:* " + tid + "%0a" +
+                          "*(Please verify payment in bank)*";
 
+            // ID को लोकल मेमोरी में सेव करो ताकि दोबारा इस्तेमाल न हो सके
+            storedIDs.push(tid);
+            localStorage.setItem('usedTransIDs', JSON.stringify(storedIDs));
+
+            // WhatsApp खोलो
             var url = "https://wa.me/" + myPhone + "?text=" + message;
             window.open(url, '_blank').focus();
         }

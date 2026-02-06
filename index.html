@@ -23,7 +23,11 @@
             width: 100%;
             max-width: 400px;
             text-align: center;
+            position: relative;
         }
+
+        /* लोडिंग स्क्रीन */
+        #loading { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.9); z-index: 99; text-align: center; padding-top: 50vh; font-weight: bold; font-size: 20px; }
 
         /* --- पेज 1: फॉर्म स्टाइल --- */
         h1 { font-weight: 800; font-size: 28px; margin-bottom: 30px; text-transform: uppercase; line-height: 1.2; }
@@ -40,13 +44,15 @@
             font-size: 20px; font-weight: bold; border-radius: 6px;
         }
 
+        /* बटन स्टाइल्स */
         .submit-btn, .confirm-btn {
             margin-top: 15px; width: 100%; padding: 15px; background-color: #333;
             color: #fff; font-size: 18px; font-weight: bold; border: none;
             border-radius: 6px; cursor: pointer; text-transform: uppercase;
         }
-
         .submit-btn:hover { background-color: #000; }
+        
+        .confirm-btn { background-color: #008000; margin-top: 30px; } /* हरा बटन */
 
         /* --- पेज 2: पेमेंट स्टाइल --- */
         #payment-page { display: none; } /* यह शुरू में छुपा रहेगा */
@@ -60,7 +66,6 @@
             cursor: pointer; border-radius: 6px; display: flex;
             align-items: center; justify-content: center; gap: 10px;
         }
-
         .option-btn:hover { background-color: #000; color: #fff; }
 
         .payment-details {
@@ -74,9 +79,7 @@
         }
 
         .qr-img { width: 180px; height: 180px; margin: 0 auto; border: 2px solid #000; }
-        
         .copy-btn { background: #333; color: #fff; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; }
-        .confirm-btn { background-color: #008000; margin-top: 30px; }
 
         /* --- फुटर --- */
         .footer { margin-top: 40px; border-top: 1px solid #ddd; padding-top: 20px; text-align: center; }
@@ -88,32 +91,35 @@
 </head>
 <body>
 
+    <div id="loading">Saving Registration... <br> Please Wait</div>
+
     <div class="container">
         
         <div id="registration-page">
             <h1>NOX <br> TOURNAMENT</h1>
-            <form onsubmit="goToPayment(event)">
+            
+            <form id="main-form" onsubmit="event.preventDefault(); goToPayment();">
                 <label>Name *</label>
-                <input type="text" required>
+                <input type="text" name="Name" required>
 
                 <label>Game Name *</label>
-                <input type="text" required>
+                <input type="text" name="Game Name" required>
 
                 <label>Game ID *</label>
-                <input type="text" required>
+                <input type="text" name="Game ID" required>
 
                 <label>WhatsApp Number *</label>
-                <input type="number" required>
+                <input type="number" name="WhatsApp" required>
 
                 <label>Mobile Number *</label>
-                <input type="number" required>
+                <input type="number" name="Mobile" required>
 
                 <label>Gmail (Optional)</label>
-                <input type="email">
+                <input type="email" name="Gmail">
 
                 <div class="fee-box">Tournament Fee: ₹49</div>
 
-                <button type="submit" class="submit-btn">SUBMIT NOW</button>
+                <button type="submit" class="submit-btn">PROCEED TO PAYMENT</button>
             </form>
         </div>
 
@@ -140,9 +146,9 @@
                 <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=sudheer03@upi&pn=NoxTournament&am=49" class="qr-img">
             </div>
 
-            <a href="https://wa.me/91XXXXXXXXXX?text=Hello%20Sudheer,%20I%20have%20paid%20Rs.49%20for%20Nox%20Tournament.%20Here%20is%20my%20screenshot." target="_blank" style="text-decoration: none;">
-                <button class="confirm-btn"><i class="fa-brands fa-whatsapp"></i> Send Screenshot</button>
-            </a>
+            <button class="confirm-btn" onclick="finalSubmit()">
+                <i class="fa-brands fa-whatsapp"></i> Confirm & Send Screenshot
+            </button>
         </div>
 
         <div class="footer">
@@ -157,27 +163,66 @@
     </div>
 
     <script>
-        // फॉर्म से पेमेंट पेज पर जाने का फंक्शन
-        function goToPayment(e) {
-            e.preventDefault(); // पेज रीलोड होने से रोकेगा
-            document.getElementById('registration-page').style.display = 'none'; // फॉर्म छुपाएं
-            document.getElementById('payment-page').style.display = 'block'; // पेमेंट दिखाएं
-            window.scrollTo(0,0); // ऊपर स्क्रॉल करें
+        // --- 1. अपनी Google Web App URL यहाँ पेस्ट करें ---
+        const scriptURL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE'; 
+        // --------------------------------------------------
+
+        // पेज 1 से पेज 2 पर जाने का फंक्शन (वैलिडेशन के साथ)
+        function goToPayment() {
+            const form = document.getElementById('main-form');
+            if (form.checkValidity()) {
+                document.getElementById('registration-page').style.display = 'none';
+                document.getElementById('payment-page').style.display = 'block';
+                window.scrollTo(0,0);
+            } else {
+                form.reportValidity(); // अगर कुछ खाली है तो बताएगा
+            }
         }
 
-        // UPI ऑप्शन दिखाना
+        // --- फाइनल सबमिट फंक्शन ---
+        function finalSubmit() {
+            const form = document.getElementById('main-form');
+            const loading = document.getElementById("loading");
+
+            // 1. लोडिंग दिखाओ
+            loading.style.display = "block";
+
+            // 2. Google Sheet में डेटा भेजो
+            fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+                .then(response => {
+                    loading.style.display = "none";
+                    
+                    // 3. 'Congratulations' अलर्ट दिखाओ
+                    alert("Congratulations! Registration Successful.");
+                    
+                    // 4. WhatsApp खोलो
+                    openWhatsApp();
+                })
+                .catch(error => {
+                    loading.style.display = "none";
+                    alert('Error! Check your internet connection.');
+                    console.error('Error!', error.message);
+                });
+        }
+
+        // WhatsApp खोलने का फंक्शन
+        function openWhatsApp() {
+            var phone = "918929094129"; // --- अपना नंबर यहाँ बदलें ---
+            var text = "Hello Sudheer, I have filled the Nox Tournament form and paid Rs.49. Here is the screenshot.";
+            window.location.href = "https://wa.me/" + phone + "?text=" + encodeURIComponent(text);
+        }
+
+        // बाकी छोटे फंक्शन्स
         function showUPI() {
             document.getElementById('upi-section').style.display = 'block';
             document.getElementById('qr-section').style.display = 'none';
         }
 
-        // QR ऑप्शन दिखाना
         function showQR() {
             document.getElementById('qr-section').style.display = 'block';
             document.getElementById('upi-section').style.display = 'none';
         }
 
-        // UPI कॉपी करना
         function copyUPI() {
             var copyText = document.getElementById("upi-id");
             navigator.clipboard.writeText(copyText.innerText);

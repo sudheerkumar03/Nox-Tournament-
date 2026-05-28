@@ -1,354 +1,1880 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
- <meta name="google-site-verification" content="xUmOYRHHWJfEhCy4si4YuqaEnED_YV_-ulr0-Gyzsvs" />
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nox Tournament Registration</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <style>
-        /* --- ग्लोबल स्टाइल --- */
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        
-        body {
-            /* WHITE THEME BACKGROUND */
-            background-color: #ffffff; 
-            color: #000000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VELLA CO. | Premium Streetwear</title>
 
-        .container {
-            width: 100%;
-            max-width: 420px;
-            text-align: center;
-            position: relative;
-            background: #ffffff;
-            padding: 25px;
-            /* Simple Shadow */
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); 
-            border-radius: 12px;
-        }
+<meta name="description" content="VELLA CO. Premium Luxury Streetwear Fashion Brand">
+<meta name="keywords" content="VELLA CO, streetwear, premium clothing, fashion">
 
-        /* --- फॉर्म इनपुट्स --- */
-        h1 { 
-            font-weight: 800; font-size: 32px; margin-bottom: 25px; 
-            text-transform: uppercase; line-height: 1.2;
-            color: #000; 
-        }
-        
-        label { font-weight: 700; font-size: 14px; display: block; margin-bottom: 8px; margin-top: 15px; text-align: left; color: #333; }
-        
-        input {
-            width: 100%; padding: 12px; 
-            border: 1px solid #000; /* Black Border */
-            background-color: #f2f2f2; /* Light Gray Input */
-            border-radius: 6px; font-size: 16px; 
-            color: #000; 
-            outline: none;
-            transition: 0.3s;
-        }
-        
-        /* प्लेसहोल्डर का रंग */
-        ::placeholder { color: #888; font-size: 14px; }
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-        input:focus { border-color: #000; background-color: #e6e6e6; }
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-        .fee-box {
-            margin-top: 25px; border: 2px solid #000; padding: 15px;
-            font-size: 22px; font-weight: bold; border-radius: 6px;
-            color: #000; background: transparent;
-        }
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
-        /* --- बटन --- */
-        .submit-btn, .confirm-btn {
-            margin-top: 20px; width: 100%; padding: 15px; 
-            background-color: #333; /* Dark Gray Button */
-            color: #fff; font-size: 18px; font-weight: bold; border: none;
-            border-radius: 6px; cursor: pointer; text-transform: uppercase;
-            transition: 0.3s;
-        }
+<style>
 
-        .submit-btn:hover { background-color: #000; }
-        
-        /* पेमेंट बटन हरा ही ठीक लगता है */
-        .confirm-btn { background-color: #008000; } 
-        .confirm-btn:hover { background-color: #006400; }
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Inter',sans-serif;
+scroll-behavior:smooth;
+}
 
-        /* --- पेमेंट पेज --- */
-        #payment-page { display: none; }
+:root{
+--bg:#ffffff;
+--text:#000000;
+--card:#f7f7f7;
+--border:#e5e5e5;
+--shadow:0 15px 40px rgba(0,0,0,0.08);
+}
 
-        h2 { margin-bottom: 10px; font-weight: 800; text-transform: uppercase; color: #000; }
-        p { margin-bottom: 20px; font-size: 16px; font-weight: 600; color: #333; }
+body.dark{
+--bg:#0c0c0c;
+--text:#ffffff;
+--card:#141414;
+--border:#232323;
+--shadow:0 15px 40px rgba(255,255,255,0.05);
+}
 
-        .option-btn {
-            width: 100%; padding: 15px; margin-bottom: 15px; border: 2px solid #000;
-            background: #fff; color: #000; font-size: 16px; font-weight: bold;
-            cursor: pointer; border-radius: 6px; display: flex;
-            align-items: center; justify-content: center; gap: 10px;
-        }
-        .option-btn:hover { background-color: #000; color: #fff; }
+body{
+background:var(--bg);
+color:var(--text);
+overflow-x:hidden;
+transition:.4s;
+}
 
-        .payment-details {
-            display: none; margin-top: 20px; border: 1px solid #ddd;
-            padding: 20px; border-radius: 8px; background: #f9f9f9;
-        }
+/* LOADER */
 
-        .upi-text {
-            font-size: 18px; font-weight: bold; margin-bottom: 10px; display: block;
-            background: #eee; padding: 10px; border-radius: 4px; word-break: break-all; color: #000;
-        }
+.loader{
+position:fixed;
+inset:0;
+background:white;
+z-index:999999;
+display:flex;
+align-items:center;
+justify-content:center;
+transition:1s;
+}
 
-        .qr-img { width: 180px; height: 180px; margin: 0 auto; border: 2px solid #000; border-radius: 8px; }
-        .copy-btn { background: #333; color: #fff; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; }
+.loader h1{
+font-size:4rem;
+letter-spacing:8px;
+animation:pulse 1.2s infinite;
+}
 
-        .trans-box {
-            margin-top: 20px; text-align: left; border: 2px solid #000;
-            padding: 15px; border-radius: 6px; background: #fff;
-        }
+@keyframes pulse{
+50%{opacity:.4;}
+}
 
-        .footer { margin-top: 40px; border-top: 1px solid #ddd; padding-top: 20px; text-align: center; }
-        .social-icons { display: flex; justify-content: center; gap: 20px; margin-bottom: 10px; }
-        .social-icons i { font-size: 24px; color: #000; transition: transform 0.3s; }
-        .social-icons i:hover { transform: scale(1.2); }
-        .handle-name { font-weight: bold; font-size: 16px; color: #333; }
+/* NAVBAR */
 
-        /* --- ✨ CUSTOM POPUP STYLE (WHITE THEME) ✨ --- */
-        #custom-popup {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.6); /* हल्का काला बैकग्राउंड */
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
+header{
+position:sticky;
+top:0;
+z-index:999;
+backdrop-filter:blur(20px);
+background:rgba(255,255,255,.8);
+border-bottom:1px solid var(--border);
+}
 
-        .popup-content {
-            background: #ffffff;
-            border: 2px solid #000;
-            border-radius: 12px;
-            padding: 30px;
-            max-width: 400px;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            animation: popIn 0.3s ease-out;
-        }
+body.dark header{
+background:rgba(0,0,0,.8);
+}
 
-        .popup-icon { font-size: 40px; color: #d9534f; margin-bottom: 15px; } /* Red Icon for Alert */
-        .popup-msg { font-size: 18px; color: #000; margin-bottom: 25px; font-weight: 600; }
-        
-        .popup-btn {
-            background: #333; color: #fff;
-            border: none; padding: 10px 30px;
-            font-size: 16px; font-weight: bold;
-            border-radius: 6px; cursor: pointer;
-            text-transform: uppercase;
-        }
-        .popup-btn:hover { background: #000; }
+.navbar{
+max-width:1450px;
+margin:auto;
+padding:18px 30px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:20px;
+}
 
-        @keyframes popIn {
-            from { transform: scale(0.5); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
+.logo{
+font-size:1.8rem;
+font-weight:900;
+letter-spacing:5px;
+}
 
-    </style>
+.nav-links{
+display:flex;
+gap:30px;
+list-style:none;
+}
+
+.nav-links a{
+text-decoration:none;
+color:var(--text);
+font-weight:500;
+}
+
+.search{
+flex:1;
+max-width:500px;
+position:relative;
+}
+
+.search input{
+width:100%;
+padding:14px 18px 14px 45px;
+border-radius:50px;
+border:none;
+background:var(--card);
+color:var(--text);
+outline:none;
+}
+
+.search i{
+position:absolute;
+left:18px;
+top:50%;
+transform:translateY(-50%);
+}
+
+.nav-icons{
+display:flex;
+align-items:center;
+gap:20px;
+font-size:1.2rem;
+}
+
+.cart-icon{
+position:relative;
+cursor:pointer;
+}
+
+.cart-count{
+position:absolute;
+top:-10px;
+right:-10px;
+background:black;
+color:white;
+width:20px;
+height:20px;
+border-radius:50%;
+font-size:12px;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+.menu-btn{
+display:none;
+font-size:1.4rem;
+cursor:pointer;
+}
+
+/* HERO */
+
+.hero{
+min-height:100vh;
+display:grid;
+grid-template-columns:1fr 1fr;
+align-items:center;
+padding:60px 8%;
+gap:60px;
+}
+
+.hero h1{
+font-size:5rem;
+line-height:1;
+margin-bottom:20px;
+}
+
+.hero p{
+font-size:1.1rem;
+max-width:500px;
+line-height:1.7;
+color:gray;
+margin-bottom:35px;
+}
+
+.btn{
+padding:16px 35px;
+border:none;
+background:black;
+color:white;
+border-radius:50px;
+font-size:15px;
+cursor:pointer;
+transition:.3s;
+position:relative;
+overflow:hidden;
+}
+
+.btn:hover{
+transform:translateY(-5px);
+}
+
+.hero img{
+width:100%;
+border-radius:35px;
+object-fit:cover;
+box-shadow:var(--shadow);
+}
+
+/* SECTION */
+
+.section{
+padding:90px 7%;
+}
+
+.section-title{
+font-size:2.7rem;
+margin-bottom:40px;
+font-weight:800;
+}
+
+/* SLIDER */
+
+.slider{
+display:flex;
+overflow:auto;
+gap:25px;
+scrollbar-width:none;
+}
+
+.slide{
+min-width:300px;
+background:var(--card);
+border-radius:25px;
+overflow:hidden;
+transition:.4s;
+}
+
+.slide:hover{
+transform:translateY(-10px);
+}
+
+.slide img{
+width:100%;
+height:350px;
+object-fit:cover;
+}
+
+.slide div{
+padding:20px;
+}
+
+/* FILTER */
+
+.filters{
+display:flex;
+flex-wrap:wrap;
+gap:15px;
+margin-bottom:40px;
+}
+
+.filters select{
+padding:12px 16px;
+border:none;
+background:var(--card);
+border-radius:12px;
+color:var(--text);
+}
+
+/* PRODUCTS */
+
+.products{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:30px;
+}
+
+.product{
+background:rgba(255,255,255,.5);
+backdrop-filter:blur(15px);
+border:1px solid var(--border);
+border-radius:28px;
+overflow:hidden;
+transition:.4s;
+position:relative;
+}
+
+body.dark .product{
+background:rgba(0,0,0,.4);
+}
+
+.product:hover{
+transform:translateY(-10px);
+box-shadow:var(--shadow);
+}
+
+.product-img{
+height:350px;
+overflow:hidden;
+position:relative;
+}
+
+.product-img img{
+width:100%;
+height:100%;
+object-fit:cover;
+transition:.5s;
+}
+
+.product:hover img{
+transform:scale(1.08);
+}
+
+.badge{
+position:absolute;
+top:15px;
+left:15px;
+background:black;
+color:white;
+padding:8px 14px;
+border-radius:40px;
+font-size:12px;
+font-weight:600;
+}
+
+.wishlist{
+position:absolute;
+top:15px;
+right:15px;
+width:42px;
+height:42px;
+background:white;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+}
+
+.info{
+padding:22px;
+}
+
+.info h3{
+margin-bottom:10px;
+}
+
+.price{
+display:flex;
+gap:10px;
+align-items:center;
+margin-bottom:15px;
+}
+
+.old{
+text-decoration:line-through;
+color:gray;
+}
+
+.stars{
+color:gold;
+margin-bottom:15px;
+}
+
+.options{
+display:flex;
+gap:10px;
+margin-bottom:15px;
+}
+
+.options select{
+flex:1;
+padding:10px;
+border:none;
+background:var(--card);
+border-radius:10px;
+color:var(--text);
+}
+
+.actions{
+display:flex;
+gap:10px;
+}
+
+.actions button{
+flex:1;
+padding:12px;
+border:none;
+border-radius:12px;
+cursor:pointer;
+font-weight:600;
+transition:.3s;
+}
+
+.add{
+background:black;
+color:white;
+}
+
+.view{
+background:var(--card);
+color:var(--text);
+}
+
+.actions button:hover{
+transform:translateY(-3px);
+}
+
+/* FEATURE */
+
+.feature{
+background:url('https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1600&auto=format&fit=crop') center/cover;
+padding:120px 60px;
+border-radius:40px;
+position:relative;
+overflow:hidden;
+color:white;
+}
+
+.feature::before{
+content:'';
+position:absolute;
+inset:0;
+background:rgba(0,0,0,.5);
+}
+
+.feature-content{
+position:relative;
+z-index:2;
+max-width:600px;
+}
+
+.feature h2{
+font-size:4rem;
+margin-bottom:20px;
+}
+
+/* TESTIMONIAL */
+
+.testimonials{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:25px;
+}
+
+.testimonial{
+background:var(--card);
+padding:30px;
+border-radius:25px;
+}
+
+/* FAQ */
+
+.faq{
+border-bottom:1px solid var(--border);
+padding:20px 0;
+cursor:pointer;
+}
+
+.answer{
+max-height:0;
+overflow:hidden;
+transition:.4s;
+color:gray;
+}
+
+.faq.active .answer{
+max-height:200px;
+padding-top:15px;
+}
+
+/* FOOTER */
+
+footer{
+padding:70px 7%;
+background:var(--card);
+margin-top:100px;
+}
+
+.footer-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:40px;
+}
+
+.socials{
+display:flex;
+gap:15px;
+margin-top:20px;
+}
+
+.socials a{
+width:45px;
+height:45px;
+background:black;
+color:white;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+text-decoration:none;
+}
+
+/* CART */
+
+.cart{
+position:fixed;
+top:0;
+right:-450px;
+width:420px;
+height:100vh;
+background:var(--bg);
+box-shadow:-10px 0 30px rgba(0,0,0,.1);
+z-index:9999;
+transition:.4s;
+padding:25px;
+display:flex;
+flex-direction:column;
+}
+
+.cart.active{
+right:0;
+}
+
+.cart-items{
+flex:1;
+overflow:auto;
+margin-top:25px;
+}
+
+.cart-item{
+display:flex;
+gap:15px;
+background:var(--card);
+padding:12px;
+border-radius:20px;
+margin-bottom:20px;
+}
+
+.cart-item img{
+width:90px;
+height:90px;
+border-radius:15px;
+object-fit:cover;
+}
+
+.qty{
+display:flex;
+align-items:center;
+gap:10px;
+margin-top:10px;
+}
+
+.qty button{
+width:28px;
+height:28px;
+border:none;
+background:black;
+color:white;
+border-radius:50%;
+cursor:pointer;
+}
+
+.checkout-btn{
+width:100%;
+padding:16px;
+border:none;
+background:black;
+color:white;
+border-radius:15px;
+margin-top:20px;
+cursor:pointer;
+}
+
+/* MODAL */
+
+.modal{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.6);
+display:none;
+align-items:center;
+justify-content:center;
+padding:20px;
+z-index:99999;
+}
+
+.modal.active{
+display:flex;
+}
+
+.modal-box{
+background:var(--bg);
+width:100%;
+max-width:1100px;
+border-radius:30px;
+overflow:hidden;
+display:grid;
+grid-template-columns:1fr 1fr;
+}
+
+.modal-box img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+.modal-content{
+padding:40px;
+max-height:90vh;
+overflow:auto;
+}
+
+/* CHECKOUT */
+
+.checkout-page{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.6);
+display:none;
+align-items:center;
+justify-content:center;
+padding:20px;
+z-index:999999;
+}
+
+.checkout-page.active{
+display:flex;
+}
+
+.checkout-box{
+width:100%;
+max-width:900px;
+background:var(--bg);
+padding:40px;
+border-radius:30px;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:30px;
+}
+
+.checkout-box input,
+.checkout-box textarea,
+.checkout-box select{
+width:100%;
+padding:14px;
+margin-top:12px;
+border:none;
+background:var(--card);
+border-radius:12px;
+color:var(--text);
+}
+
+/* FLOAT */
+
+.float-wa{
+position:fixed;
+bottom:90px;
+right:20px;
+width:55px;
+height:55px;
+border-radius:50%;
+background:#25D366;
+display:flex;
+align-items:center;
+justify-content:center;
+color:white;
+font-size:22px;
+z-index:999;
+}
+
+.top{
+position:fixed;
+bottom:20px;
+right:20px;
+width:55px;
+height:55px;
+border-radius:50%;
+background:black;
+color:white;
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+z-index:999;
+}
+
+/* REVEAL */
+
+.reveal{
+opacity:0;
+transform:translateY(50px);
+transition:1s;
+}
+
+.reveal.active{
+opacity:1;
+transform:translateY(0);
+}
+
+/* MOBILE */
+
+@media(max-width:900px){
+
+.hero{
+grid-template-columns:1fr;
+text-align:center;
+}
+
+.hero h1{
+font-size:3.5rem;
+}
+
+.nav-links{
+position:fixed;
+top:80px;
+left:-100%;
+width:100%;
+height:calc(100vh - 80px);
+background:var(--bg);
+flex-direction:column;
+padding:40px;
+transition:.4s;
+}
+
+.nav-links.active{
+left:0;
+}
+
+.menu-btn{
+display:block;
+}
+
+.search{
+display:none;
+}
+
+.modal-box,
+.checkout-box{
+grid-template-columns:1fr;
+}
+
+.cart{
+width:100%;
+}
+
+.feature h2{
+font-size:2.5rem;
+}
+
+}
+
+</style>
 </head>
 <body>
 
-    <div id="custom-popup">
-        <div class="popup-content">
-            <div class="popup-icon"><i class="fa-solid fa-circle-exclamation"></i></div>
-            <div class="popup-msg" id="popup-text">Error Message Here</div>
-            <button class="popup-btn" onclick="closePopup()">OK</button>
-        </div>
-    </div>
+<div class="loader">
+<h1>VELLA CO.</h1>
+</div>
 
-    <div class="container">
-        
-        <div id="registration-page">
-            <h1>NOX <br> TOURNAMENT</h1>
-            <form id="main-form" onsubmit="event.preventDefault(); goToPayment();">
-                
-                <label>Name *</label>
-                <input type="text" id="userName" placeholder="Ex: Sudheer Kumar" required>
+<header>
 
-                <label>Game Name *</label>
-                <input type="text" id="gameName" placeholder="Ex: NoxGamer01" required>
+<nav class="navbar">
 
-                <label>Game ID *</label>
-                <input type="text" id="gameId" placeholder="Ex: 567891234" required>
+<div class="logo">VELLA CO.</div>
 
-                <label>WhatsApp Number (10 Digits) *</label>
-                <input type="number" id="waNumber" placeholder="Ex: 9876543210" required>
+<ul class="nav-links">
+<li><a href="#">Home</a></li>
+<li><a href="#shop">Shop</a></li>
+<li><a href="#new">New Arrivals</a></li>
+<li><a href="#collections">Collections</a></li>
+<li><a href="#contact">Contact</a></li>
+</ul>
 
-                <label>Mobile Number (10 Digits) *</label>
-                <input type="number" id="mobNumber" placeholder="Ex: 9876543210" required>
+<div class="search">
+<i class="fa fa-search"></i>
+<input type="text" id="searchInput" placeholder="Search premium fashion">
+</div>
 
-                <label>Gmail (Optional)</label>
-                <input type="email" id="gmailId" placeholder="Ex: sudheer@gmail.com">
+<div class="nav-icons">
 
-                <div class="fee-box">Tournament Fee: ₹49</div>
+<i class="fa fa-moon" id="themeBtn"></i>
 
-                <button type="submit" class="submit-btn">PROCEED TO PAYMENT</button>
-            </form>
-        </div>
+<div class="cart-icon" id="cartBtn">
+<i class="fa fa-shopping-bag"></i>
+<div class="cart-count" id="cartCount">0</div>
+</div>
 
-        <div id="payment-page">
-            <h2>Select Payment Method</h2>
-            <p>Total Amount: ₹49</p>
+<div class="menu-btn" id="menuBtn">
+<i class="fa fa-bars"></i>
+</div>
 
-            <button class="option-btn" onclick="showUPI()">
-                <i class="fa-solid fa-wallet"></i> Pay via UPI ID
-            </button>
+</div>
 
-            <button class="option-btn" onclick="showQR()">
-                <i class="fa-solid fa-qrcode"></i> Pay via QR Code
-            </button>
+</nav>
 
-            <div id="upi-section" class="payment-details">
-                <p>Send ₹49 to:</p>
-                <span class="upi-text" id="display-upi-id">Loading...</span>
-                <button class="copy-btn" onclick="copyUPI()">Copy ID</button>
-            </div>
+</header>
 
-            <div id="qr-section" class="payment-details">
-                <p>Scan to Pay</p>
-                <img src="" class="qr-img" id="display-qr-code" alt="QR Code Loading...">
-            </div>
+<section class="hero">
 
-            <div class="trans-box">
-                <label style="margin-top: 0;">Enter Transaction ID / UTR (12 Digits) *</label>
-                <input type="number" id="transId" placeholder="Ex: 4032189xxxxx" required>
-                <small style="color: #666; font-size: 12px; display: block; margin-top: 5px;">
-                    * Paste the 12-digit UTR number from Payment App.
-                </small>
-            </div>
+<div>
 
-            <button class="confirm-btn" onclick="sendToWhatsApp()">
-                <i class="fa-brands fa-whatsapp"></i> Confirm & Send Data
-            </button>
-        </div>
+<h1>VELLA CO.</h1>
 
-        <div class="footer">
-            <div class="social-icons">
-                <a href="https://www.instagram.com/hii_sudheer?igsh=djB4N2Zhb3FvMm1w" target="_blank"> <i class="fa-brands fa-instagram"></i> </a>
-                <a href="https://youtube.com/@sudheer03" target="_blank"> <i class="fa-brands fa-youtube"></i> </a>
-                <i class="fa-brands fa-x-twitter"></i>
-            </div>
-            <div class="handle-name">@sudheer03</div>
-        </div>
+<p>
+Minimal Streetwear Collection crafted for the luxury generation.
+</p>
 
-    </div>
+<button class="btn" onclick="document.getElementById('shop').scrollIntoView()">
+Shop Now
+</button>
 
-    <script>
-        // ==========================================
-        //         👇 SETTINGS 👇
-        // ==========================================
-        
-        const myUPI = "8929094129@paytm";
-        const myPhone = "918929094129";
-        
-        // ==========================================
-        
-        window.onload = function() {
-            document.getElementById('display-upi-id').innerText = myUPI;
-            let qrLink = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=" + myUPI + "%26pn=NoxTournament%26am=49";
-            document.getElementById('display-qr-code').src = qrLink;
-        };
+</div>
 
-        function showPopup(message) {
-            document.getElementById('popup-text').innerText = message;
-            document.getElementById('custom-popup').style.display = 'flex';
-        }
+<div>
+<img src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?q=80&w=1400&auto=format&fit=crop">
+</div>
 
-        function closePopup() {
-            document.getElementById('custom-popup').style.display = 'none';
-        }
+</section>
 
-        function goToPayment() {
-            const form = document.getElementById('main-form');
-            var waNum = document.getElementById("waNumber").value.toString();
-            var mobNum = document.getElementById("mobNumber").value.toString();
+<section class="section reveal">
 
-            if (waNum.length !== 10) {
-                showPopup("Error: WhatsApp Number must be exactly 10 digits!"); 
-                return; 
-            }
+<h2 class="section-title">Trending Now</h2>
 
-            if (mobNum.length !== 10) {
-                showPopup("Error: Mobile Number must be exactly 10 digits!"); 
-                return;
-            }
+<div class="slider">
 
-            if (form.checkValidity()) {
-                document.getElementById('registration-page').style.display = 'none';
-                document.getElementById('payment-page').style.display = 'block';
-                window.scrollTo(0,0);
-            } else {
-                form.reportValidity();
-            }
-        }
+<div class="slide">
+<img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=1200&auto=format&fit=crop">
+<div>
+<h3>Urban Oversized</h3>
+<p>Luxury monochrome collection.</p>
+</div>
+</div>
 
-        function sendToWhatsApp() {
-            var tid = document.getElementById("transId").value.trim().toString();
-            
-            if (tid.length < 12) {
-                showPopup("Invalid Transaction ID!\nIt must be at least 12 digits."); 
-                return;
-            }
+<div class="slide">
+<img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1200&auto=format&fit=crop">
+<div>
+<h3>Street Essentials</h3>
+<p>Minimal premium fashion.</p>
+</div>
+</div>
 
-            var storedIDs = JSON.parse(localStorage.getItem('usedTransIDs')) || [];
-            if (storedIDs.includes(tid)) {
-                showPopup("Error: This Transaction ID has already been used!"); 
-                return;
-            }
+<div class="slide">
+<img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1200&auto=format&fit=crop">
+<div>
+<h3>Luxury Jackets</h3>
+<p>Modern oversized fits.</p>
+</div>
+</div>
 
-            var name = document.getElementById("userName").value;
-            var gName = document.getElementById("gameName").value;
-            var gId = document.getElementById("gameId").value;
-            var wa = document.getElementById("waNumber").value;
-            var mob = document.getElementById("mobNumber").value;
-            var gmail = document.getElementById("gmailId").value;
+</div>
 
-            var message = "*New Registration for Nox Tournament* %0a" +
-                          "---------------------------------%0a" +
-                          "*Name:* " + name + "%0a" +
-                          "*Game Name:* " + gName + "%0a" +
-                          "*Game ID:* " + gId + "%0a" +
-                          "*WhatsApp No:* " + wa + "%0a" +
-                          "*Mobile No:* " + mob + "%0a" +
-                          "*Gmail:* " + gmail + "%0a" +
-                          "---------------------------------%0a" +
-                          "*Transaction ID:* " + tid + "%0a" +
-                          "*(Please verify payment in bank)*";
+</section>
 
-            storedIDs.push(tid);
-            localStorage.setItem('usedTransIDs', JSON.stringify(storedIDs));
+<section class="section reveal" id="shop">
 
-            var url = "https://wa.me/" + myPhone + "?text=" + message;
-            window.open(url, '_blank').focus();
-        }
+<h2 class="section-title">Premium Collection</h2>
 
-        function showUPI() {
-            document.getElementById('upi-section').style.display = 'block';
-            document.getElementById('qr-section').style.display = 'none';
-        }
+<div class="filters">
 
-        function showQR() {
-            document.getElementById('qr-section').style.display = 'block';
-            document.getElementById('upi-section').style.display = 'none';
-        }
+<select id="categoryFilter">
+<option value="all">All Categories</option>
+<option value="hoodie">Hoodies</option>
+<option value="tshirt">T-Shirts</option>
+<option value="jacket">Jackets</option>
+</select>
 
-        function copyUPI() {
-            navigator.clipboard.writeText(myUPI);
-            showPopup("UPI ID Copied Successfully!"); 
-        }
-    </script>
+<select id="sortFilter">
+<option value="default">Sort</option>
+<option value="low">Low to High</option>
+<option value="high">High to Low</option>
+</select>
+
+</div>
+
+<div class="products" id="products"></div>
+
+</section>
+
+<section class="section reveal" id="collections">
+
+<div class="feature">
+
+<div class="feature-content">
+
+<h2>NEW DROP 2026</h2>
+
+<p>
+Luxury oversized silhouettes crafted with premium aesthetics.
+</p>
+
+<br>
+
+<button class="btn">Explore Collection</button>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="section reveal">
+
+<h2 class="section-title">Testimonials</h2>
+
+<div class="testimonials">
+
+<div class="testimonial">
+<h3>Luxury Feel</h3>
+<br>
+<p>
+“Feels like an international premium streetwear brand.”
+</p>
+</div>
+
+<div class="testimonial">
+<h3>Perfect Fit</h3>
+<br>
+<p>
+“Best oversized fit and premium fabric quality.”
+</p>
+</div>
+
+<div class="testimonial">
+<h3>Fast Delivery</h3>
+<br>
+<p>
+“Packaging and delivery experience was amazing.”
+</p>
+</div>
+
+</div>
+
+</section>
+
+<section class="section reveal">
+
+<h2 class="section-title">FAQs</h2>
+
+<div class="faq">
+<h3>How long does delivery take?</h3>
+<div class="answer">
+3-7 business days across India.
+</div>
+</div>
+
+<div class="faq">
+<h3>Is COD available?</h3>
+<div class="answer">
+Yes, Cash on Delivery is available.
+</div>
+</div>
+
+<div class="faq">
+<h3>Can I return products?</h3>
+<div class="answer">
+Yes, within 7 days.
+</div>
+</div>
+
+</section>
+
+<footer id="contact">
+
+<div class="footer-grid">
+
+<div>
+
+<h2>VELLA CO.</h2>
+
+<p>
+Premium minimal luxury streetwear brand.
+</p>
+
+<div class="socials">
+
+<a href="#"><i class="fab fa-instagram"></i></a>
+
+<a href="#"><i class="fab fa-whatsapp"></i></a>
+
+<a href="#"><i class="fab fa-telegram"></i></a>
+
+</div>
+
+</div>
+
+<div>
+
+<h3>Contact</h3>
+
+<br>
+
+<p>Email: support@vellaco.com</p>
+<p>Phone: +91 9876543210</p>
+
+</div>
+
+<div>
+
+<h3>Newsletter</h3>
+
+<br>
+
+<input type="email" placeholder="Your Email"
+style="padding:14px;width:100%;border:none;border-radius:12px;background:white;">
+
+<br><br>
+
+<button class="btn">
+Subscribe
+</button>
+
+</div>
+
+</div>
+
+<br><br>
+
+<p style="text-align:center;">
+© 2026 VELLA CO. All Rights Reserved.
+</p>
+
+</footer>
+
+<!-- CART -->
+
+<div class="cart" id="cart">
+
+<div style="display:flex;justify-content:space-between;align-items:center;">
+
+<h2>Your Cart</h2>
+
+<i class="fa fa-times" id="closeCart" style="cursor:pointer;font-size:22px;"></i>
+
+</div>
+
+<div class="cart-items" id="cartItems"></div>
+
+<h3>Total: ₹<span id="total">0</span></h3>
+
+<button class="checkout-btn" onclick="openCheckout()">
+Checkout
+</button>
+
+<button class="checkout-btn"
+style="background:#25D366;"
+onclick="whatsappOrder()">
+WhatsApp Order
+</button>
+
+</div>
+
+<!-- MODAL -->
+
+<div class="modal" id="modal">
+
+<div class="modal-box">
+
+<img id="modalImg">
+
+<div class="modal-content">
+
+<h2 id="modalTitle"></h2>
+
+<br>
+
+<h3 id="modalPrice"></h3>
+
+<br>
+
+<p>
+Premium oversized streetwear with luxury-grade fabric and modern silhouette.
+</p>
+
+<br>
+
+<h4>Select Size</h4>
+
+<br>
+
+<select id="productSize">
+
+<option>S</option>
+<option>M</option>
+<option>L</option>
+<option>XL</option>
+
+</select>
+
+<br><br>
+
+<h4>Quantity</h4>
+
+<br>
+
+<input type="number" id="productQty" value="1" min="1"
+style="padding:14px;width:100%;border:none;background:var(--card);border-radius:12px;color:var(--text);">
+
+<br><br>
+
+<button class="checkout-btn" onclick="openCheckout()">
+Buy Now
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- CHECKOUT -->
+
+<div class="checkout-page" id="checkoutPage">
+
+<div class="checkout-box">
+
+<div>
+
+<h2>Checkout</h2>
+
+<br>
+
+<input type="text" id="name" placeholder="Full Name">
+
+<input type="email" id="email" placeholder="Email">
+
+<input type="tel" id="phone" placeholder="Phone Number">
+
+<textarea id="address" placeholder="Delivery Address"></textarea>
+
+<select id="paymentMethod">
+
+<option value="online">Online Payment</option>
+
+<option value="cod">Cash on Delivery</option>
+
+</select>
+
+<input type="text" id="razorpayKey"
+placeholder="Enter Razorpay Key (optional)">
+
+</div>
+
+<div>
+
+<h2>Order Summary</h2>
+
+<br>
+
+<div id="summary"></div>
+
+<br>
+
+<button class="checkout-btn" onclick="placeOrder()">
+Place Order
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<a class="float-wa" href="https://wa.me/919999999999">
+<i class="fab fa-whatsapp"></i>
+</a>
+
+<div class="top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+<i class="fa fa-arrow-up"></i>
+</div>
+
+<script>
+
+/* PRODUCTS */
+
+const products=[
+
+{
+id:1,
+title:"Oversized Black Hoodie",
+price:2499,
+category:"hoodie",
+image:"https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?q=80&w=1200&auto=format&fit=crop"
+},
+
+{
+id:2,
+title:"Minimal White Tee",
+price:1499,
+category:"tshirt",
+image:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=1200&auto=format&fit=crop"
+},
+
+{
+id:3,
+title:"Premium Bomber Jacket",
+price:4299,
+category:"jacket",
+image:"https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1200&auto=format&fit=crop"
+},
+
+{
+id:4,
+title:"Luxury Oversized Tee",
+price:1899,
+category:"tshirt",
+image:"https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=1200&auto=format&fit=crop"
+},
+
+{
+id:5,
+title:"Urban Gray Hoodie",
+price:2899,
+category:"hoodie",
+image:"https://images.unsplash.com/photo-1529139574466-a303027c1d8b?q=80&w=1200&auto=format&fit=crop"
+},
+
+{
+id:6,
+title:"Streetwear Jacket",
+price:4699,
+category:"jacket",
+image:"https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1200&auto=format&fit=crop"
+}
+
+];
+
+let cart=JSON.parse(localStorage.getItem('cart'))||[];
+let orders=JSON.parse(localStorage.getItem('orders'))||[];
+let wishlist=JSON.parse(localStorage.getItem('wishlist'))||[];
+
+const productsDiv=document.getElementById('products');
+
+/* RENDER */
+
+function renderProducts(list){
+
+productsDiv.innerHTML='';
+
+list.forEach(p=>{
+
+productsDiv.innerHTML+=`
+
+<div class="product reveal">
+
+<div class="product-img">
+
+<div class="badge">20% OFF</div>
+
+<div class="wishlist" onclick="toggleWishlist(${p.id})">
+
+<i class="fa ${wishlist.includes(p.id)?'fa-heart':'fa-heart-o'}"></i>
+
+</div>
+
+<img src="${p.image}">
+
+</div>
+
+<div class="info">
+
+<h3>${p.title}</h3>
+
+<div class="price">
+
+<h2>₹${p.price}</h2>
+
+<span class="old">₹${p.price+1000}</span>
+
+</div>
+
+<div class="stars">★★★★★</div>
+
+<div class="options">
+
+<select>
+<option>S</option>
+<option>M</option>
+<option>L</option>
+<option>XL</option>
+</select>
+
+<select>
+<option>Black</option>
+<option>White</option>
+<option>Gray</option>
+</select>
+
+</div>
+
+<div class="actions">
+
+<button class="add"
+onclick="addToCart(${p.id})">
+Add to Cart
+</button>
+
+<button class="view"
+onclick="openModal(${p.id})">
+Quick View
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+reveal();
+
+}
+
+renderProducts(products);
+
+/* SEARCH */
+
+document.getElementById('searchInput').addEventListener('input',(e)=>{
+
+const value=e.target.value.toLowerCase();
+
+renderProducts(
+products.filter(p=>
+p.title.toLowerCase().includes(value)
+)
+);
+
+});
+
+/* FILTER */
+
+document.getElementById('categoryFilter').addEventListener('change',(e)=>{
+
+const value=e.target.value;
+
+if(value==='all'){
+renderProducts(products);
+}else{
+renderProducts(products.filter(p=>p.category===value));
+}
+
+});
+
+/* SORT */
+
+document.getElementById('sortFilter').addEventListener('change',(e)=>{
+
+let sorted=[...products];
+
+if(e.target.value==='low'){
+sorted.sort((a,b)=>a.price-b.price);
+}
+
+if(e.target.value==='high'){
+sorted.sort((a,b)=>b.price-a.price);
+}
+
+renderProducts(sorted);
+
+});
+
+/* CART */
+
+function addToCart(id){
+
+const item=products.find(p=>p.id===id);
+
+const exist=cart.find(p=>p.id===id);
+
+if(exist){
+exist.qty+=1;
+}else{
+cart.push({...item,qty:1});
+}
+
+saveCart();
+
+}
+
+function saveCart(){
+
+localStorage.setItem('cart',JSON.stringify(cart));
+
+renderCart();
+
+}
+
+function renderCart(){
+
+const cartItems=document.getElementById('cartItems');
+
+cartItems.innerHTML='';
+
+let total=0;
+
+if(cart.length===0){
+
+cartItems.innerHTML=`
+<div style="text-align:center;padding:80px 20px;">
+<i class="fa fa-shopping-bag"
+style="font-size:50px;opacity:.3;"></i>
+<br><br>
+<h3>Cart is Empty</h3>
+</div>
+`;
+
+}
+
+cart.forEach(item=>{
+
+total+=item.price*item.qty;
+
+cartItems.innerHTML+=`
+
+<div class="cart-item">
+
+<img src="${item.image}">
+
+<div style="flex:1;">
+
+<h4>${item.title}</h4>
+
+<p>₹${item.price}</p>
+
+<div class="qty">
+
+<button onclick="changeQty(${item.id},-1)">-</button>
+
+<span>${item.qty}</span>
+
+<button onclick="changeQty(${item.id},1)">+</button>
+
+</div>
+
+</div>
+
+<i class="fa fa-trash"
+style="cursor:pointer;"
+onclick="removeItem(${item.id})"></i>
+
+</div>
+
+`;
+
+});
+
+document.getElementById('total').innerText=total;
+
+document.getElementById('cartCount').innerText=cart.length;
+
+}
+
+renderCart();
+
+/* QTY */
+
+function changeQty(id,change){
+
+let item=cart.find(i=>i.id===id);
+
+item.qty+=change;
+
+if(item.qty<=0){
+cart=cart.filter(i=>i.id!==id);
+}
+
+saveCart();
+
+}
+
+/* REMOVE */
+
+function removeItem(id){
+
+cart=cart.filter(i=>i.id!==id);
+
+saveCart();
+
+}
+
+/* WISHLIST */
+
+function toggleWishlist(id){
+
+if(wishlist.includes(id)){
+wishlist=wishlist.filter(i=>i!==id);
+}else{
+wishlist.push(id);
+}
+
+localStorage.setItem('wishlist',JSON.stringify(wishlist));
+
+renderProducts(products);
+
+}
+
+/* MODAL */
+
+let currentProduct=null;
+
+function openModal(id){
+
+currentProduct=products.find(p=>p.id===id);
+
+document.getElementById('modal').classList.add('active');
+
+document.getElementById('modalImg').src=currentProduct.image;
+
+document.getElementById('modalTitle').innerText=currentProduct.title;
+
+document.getElementById('modalPrice').innerText='₹'+currentProduct.price;
+
+/* BACK BUTTON SUPPORT */
+
+history.pushState(
+{
+type:'product',
+id:id
+},
+'',
+'#product-'+id
+);
+
+}
+
+/* CLOSE MODAL */
+
+document.getElementById('modal').addEventListener('click',(e)=>{
+
+if(e.target.id==='modal'){
+
+document.getElementById('modal').classList.remove('active');
+
+history.back();
+
+}
+
+});
+
+/* CART */
+
+document.getElementById('cartBtn').onclick=()=>{
+
+document.getElementById('cart').classList.add('active');
+
+history.pushState(
+{
+type:'cart'
+},
+'',
+'#cart'
+);
+
+};
+
+document.getElementById('closeCart').onclick=()=>{
+
+document.getElementById('cart').classList.remove('active');
+
+history.back();
+
+};
+
+/* MOBILE BACK */
+
+window.addEventListener('popstate',()=>{
+
+document.getElementById('modal').classList.remove('active');
+
+document.getElementById('cart').classList.remove('active');
+
+if(location.hash.includes('#product-')){
+
+const id=Number(location.hash.replace('#product-',''));
+
+const product=products.find(p=>p.id===id);
+
+if(product){
+
+currentProduct=product;
+
+document.getElementById('modal').classList.add('active');
+
+document.getElementById('modalImg').src=product.image;
+
+document.getElementById('modalTitle').innerText=product.title;
+
+document.getElementById('modalPrice').innerText='₹'+product.price;
+
+}
+
+}
+
+if(location.hash==='#cart'){
+
+document.getElementById('cart').classList.add('active');
+
+}
+
+});
+
+/* CHECKOUT */
+
+function openCheckout(){
+
+document.getElementById('checkoutPage').classList.add('active');
+
+let summary='';
+
+cart.forEach(item=>{
+
+summary+=`
+<div style="display:flex;justify-content:space-between;margin-bottom:15px;">
+<span>${item.title} x ${item.qty}</span>
+<span>₹${item.price*item.qty}</span>
+</div>
+`;
+
+});
+
+summary+=`
+<hr><br>
+<h3>Total: ₹${document.getElementById('total').innerText}</h3>
+`;
+
+document.getElementById('summary').innerHTML=summary;
+
+history.pushState(
+{
+type:'checkout'
+},
+'',
+'#checkout'
+);
+
+}
+
+/* PLACE ORDER */
+
+function placeOrder(){
+
+const name=document.getElementById('name').value;
+const email=document.getElementById('email').value;
+const phone=document.getElementById('phone').value;
+const address=document.getElementById('address').value;
+const payment=document.getElementById('paymentMethod').value;
+
+const razorpayKey=
+document.getElementById('razorpayKey').value ||
+"rzp_test_1DP5mmOlF5G5ag";
+
+if(!name || !email || !phone || !address){
+
+return;
+
+}
+
+const order={
+name,
+email,
+phone,
+address,
+payment,
+cart,
+total:document.getElementById('total').innerText
+};
+
+orders.push(order);
+
+localStorage.setItem('orders',JSON.stringify(orders));
+
+if(payment==='cod'){
+
+showSuccess();
+
+}else{
+
+const options={
+
+key:razorpayKey,
+
+amount:Number(order.total)*100,
+
+currency:"INR",
+
+name:"VELLA CO.",
+
+description:"Premium Fashion Order",
+
+handler:function(){
+
+showSuccess();
+
+},
+
+theme:{
+color:"#000000"
+}
+
+};
+
+const rzp=new Razorpay(options);
+
+rzp.open();
+
+}
+
+}
+
+/* SUCCESS */
+
+function showSuccess(){
+
+document.getElementById('checkoutPage').classList.remove('active');
+
+document.getElementById('modal').classList.remove('active');
+
+document.getElementById('cart').classList.remove('active');
+
+cart=[];
+
+saveCart();
+
+const popup=document.createElement('div');
+
+popup.innerHTML=`
+<div style="
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+background:white;
+padding:40px;
+border-radius:30px;
+z-index:999999;
+text-align:center;
+box-shadow:0 20px 50px rgba(0,0,0,.2);
+">
+<i class="fa fa-check-circle"
+style="font-size:70px;color:black;"></i>
+<br><br>
+<h2>Order Successful</h2>
+<br>
+<p>Your premium order has been placed.</p>
+</div>
+`;
+
+document.body.appendChild(popup);
+
+setTimeout(()=>{
+popup.remove();
+},3000);
+
+}
+
+/* WHATSAPP */
+
+function whatsappOrder(){
+
+let text='🛍️ *VELLA CO. ORDER*%0A%0A';
+
+cart.forEach(item=>{
+
+text+=`• ${item.title} x ${item.qty} - ₹${item.price*item.qty}%0A`;
+
+});
+
+text+=`%0ATotal: ₹${document.getElementById('total').innerText}`;
+
+window.open(
+`https://wa.me/919999999999?text=${text}`
+);
+
+}
+
+/* FAQ */
+
+document.querySelectorAll('.faq').forEach(f=>{
+
+f.addEventListener('click',()=>{
+
+f.classList.toggle('active');
+
+});
+
+});
+
+/* THEME */
+
+document.getElementById('themeBtn').onclick=()=>{
+
+document.body.classList.toggle('dark');
+
+};
+
+/* MENU */
+
+document.getElementById('menuBtn').onclick=()=>{
+
+document.querySelector('.nav-links').classList.toggle('active');
+
+};
+
+/* REVEAL */
+
+function reveal(){
+
+document.querySelectorAll('.reveal').forEach(sec=>{
+
+const top=sec.getBoundingClientRect().top;
+
+if(top<window.innerHeight-80){
+
+sec.classList.add('active');
+
+}
+
+});
+
+}
+
+window.addEventListener('scroll',reveal);
+
+/* LOADER */
+
+window.onload=()=>{
+
+setTimeout(()=>{
+
+document.querySelector('.loader').style.opacity='0';
+
+setTimeout(()=>{
+
+document.querySelector('.loader').style.display='none';
+
+},1000);
+
+},1800);
+
+};
+
+/* CLOSE CHECKOUT ON BACK */
+
+window.addEventListener('popstate',()=>{
+
+document.getElementById('checkoutPage').classList.remove('active');
+
+});
+
+/* DIRECT HASH OPEN */
+
+window.addEventListener('load',()=>{
+
+if(location.hash==='#cart'){
+
+document.getElementById('cart').classList.add('active');
+
+}
+
+});
+
+</script>
 
 </body>
 </html>
